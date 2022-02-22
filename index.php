@@ -9,10 +9,57 @@
  */
 
 // TODO Votre code ici.
+$server = 'localhost';
+$user = 'root';
+$pass = '';
+$db = 'bdd_cours';
+
+
+
+
 try {
-    ...
+    $maConnexion = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $user, $pass);
+    $maConnexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $name = 'Parker';
+    $fname = 'Peter';
+    $rue = 'jump street';
+    $num = 80;
+    $code = 1234;
+    $ville = 'los santos';
+    $pays = 'USA';
+    $mail = 'spiderman@us.fr';
+
+    $newuser = $maConnexion->prepare( "
+    INSERT INTO user (nom ,prenom ,rue ,numero , code_postal ,ville ,pays ,mail)
+    VALUES (:nom ,:prenom ,:rue ,:numero ,:codepostal ,:ville ,:pays ,:mail)
+    ");
+
+    $newuser ->bindParam(':nom' ,$name);
+    $newuser ->bindParam(':prenom' ,$fname);
+    $newuser ->bindParam(':rue' ,$rue);
+    $newuser ->bindParam(':numero' ,$num, PDO::PARAM_INT);
+    $newuser ->bindParam(':codepostal' ,$code, PDO::PARAM_INT);
+    $newuser ->bindParam(':ville' ,$ville);
+    $newuser ->bindParam(':pays' ,$pays);
+    $newuser ->bindParam(':mail' ,$mail);
+
+    $name = 'spiderMan';
+
+    $newuser->execute();
+
+    echo "l'Utilisateur a était ajouté !!";
+
+
+
 }
-catch...
+catch (PDOException $exception) {
+    echo $exception->getMessage();
+}
+
+
+
+
 
 
 
